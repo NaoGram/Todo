@@ -8,6 +8,7 @@ import com.example.Todo.form.UserForm;
 import com.example.Todo.repository.TaskGroupRepository;
 import com.example.Todo.repository.TaskRepository;
 import com.example.Todo.repository.UserRepository;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -55,7 +56,7 @@ public class TaskController {
 		model.addAttribute("taskForm", new TaskForm());
 		List<TaskGroup> taskGroups = taskGroupRepository.findAll();
 		model.addAttribute("taskGroups", taskGroups);
-		return "tasks/new-task";
+		return "tasks/new";
 	}
 
 	@PostMapping
@@ -112,7 +113,5 @@ public class TaskController {
 
 		return "redirect:/tasks/users";
 	}
-
-	// Other user-related methods
-
+	
 }

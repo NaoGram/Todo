@@ -3,3 +3,8 @@ spring:
     hiddenmethod:
       filter:
         enabled: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/todo
+    username: ${PSQL_USERtodo}
+    password: ${PSQL_PASSWORDtodo}
