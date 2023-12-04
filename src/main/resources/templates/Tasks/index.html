@@ -21,7 +21,6 @@
 				<!--メインタスク内のコンテナ-->
 				<div class="task-container">
 
-
 					<!--タスクグループ内の領域-->
 
 					<!--タスク-->
@@ -33,24 +32,26 @@
 						<div class="accordion" id="accordionExample1">
 							<!--アコーディオンを押したとき展開-->
 							<button class="accordion-button" type="button" data-bs-toggle="collapse"
-								data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="background-color: lightblue;">
+								data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"
+								style="background-color: lightblue;">
 								<!--タスクグループの領域--><!--色-->
 								<div class="task-group" style="background-color: lightblue;">
 									<div class="task">
 										Task
+									</div>
+								</div>
 							</button>
 							<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
 								data-bs-parent="#accordionExample1">
-								<!--アコーディオン展開した時【完了】【編集】【削除】 -->
+								<!--アコーディオン展開した時&#8203;``【oaicite:2】``&#8203;&#8203;``【oaicite:1】``&#8203;&#8203;``【oaicite:0】``&#8203; -->
 								<button>完了</button>
-								<button>編集</button>
+								<button onclick="moveToPage('/newpage1.html')">編集</button>
 								<button>削除</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
 
 			<!-- グループ2？？ -->
 
@@ -59,21 +60,32 @@
 			<div class="task-item">
 				<div class="accordion" id="accordionExample2">
 					<button class="accordion-button" type="button" data-bs-toggle="collapse"
-						data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo" style="background-color: lightgreen;">
+						data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo"
+						style="background-color: lightgreen;">
 						<div class="task-group" style="background-color: lightgreen;">
 							<div class="task-two">
 								Task2
+							</div>
+						</div>
 					</button>
 					<div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo"
 						data-bs-parent="#accordionExample2">
 						<button>完了</button>
-						<button>編集</button>
+						<button onclick="moveToPage('/newpage2.html')">編集</buttononclick="moveToPage('/newpage2.html')">
 						<button>削除</button>
 					</div>
 				</div>
 			</div>
 		</div>
 
+		<script>
+			// ページへの移動関数
+			function moveToPage(page) {
+				window.location.href = page;
+			}
+		</script>
+
+	</div>
 </body>
 
 </html>
