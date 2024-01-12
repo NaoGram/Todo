@@ -27,24 +27,36 @@ public class UsersController {
 	@Autowired
 	private UserRepository repository;
 
+	// 新しいユーザー登録画面を表示するエンドポイント
 	@GetMapping(path = "/users/new")
 	public String newUser(Model model) {
 		model.addAttribute("form", new UserForm());
 		return "users/new";
 	}
 
+	// ユーザーの新規作成を行うエンドポイント
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
 	public String create(@Validated @ModelAttribute("form") UserForm form, BindingResult result, Model model,
 			RedirectAttributes redirAttrs) {
+		// フォームからユーザー情報を取得
 		String name = form.getName();
 		String email = form.getEmail();
 		String password = form.getPassword();
 		String passwordConfirmation = form.getPasswordConfirmation();
 
+		// 重複したメールアドレスの場合はエラーメッセージを追加
 		if (repository.findByUsername(email) != null) {
 			FieldError fieldError = new FieldError(result.getObjectName(), "email", "その E メールはすでに使用されています。");
 			result.addError(fieldError);
 		}
+
+		// パスワードとパスワード確認の一致検証を追加
+		if (!password.equals(passwordConfirmation)) {
+			FieldError fieldError = new FieldError(result.getObjectName(), "passwordConfirmation", "パスワードが一致しません。");
+			result.addError(fieldError);
+		}
+
+		// バリデーションエラーがある場合はエラーメッセージを表示
 		if (result.hasErrors()) {
 			model.addAttribute("hasMessage", true);
 			model.addAttribute("class", "alert-danger");
@@ -52,9 +64,11 @@ public class UsersController {
 			return "users/new";
 		}
 
+		// パスワードをエンコードして新しいユーザーエンティティを作成しデータベースに保存
 		User entity = new User(email, name, passwordEncoder.encode(password), Authority.ROLE_USER);
 		repository.saveAndFlush(entity);
 
+		// 登録完了メッセージを表示
 		model.addAttribute("hasMessage", true);
 		model.addAttribute("class", "alert-info");
 		model.addAttribute("message", "ユーザー登録が完了しました。");

@@ -6,8 +6,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+
 
 @Repository
-public interface TaskRepository extends JpaRepository<Task, String> {
-	List<Task> findByUserAndStatusOrderByUpdatedAtDesc(User user, String status);
+public interface TaskRepository extends JpaRepository<Task, Integer> {
+//	List<Task> findByUserAndStatusOrderByUpdatedAtDesc(User user, String status);
+	List<Task> findByUserAndStatus(User user, String status);
 }

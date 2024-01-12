@@ -2,6 +2,7 @@ package com.example.Todo.entity;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -24,10 +25,10 @@ import lombok.Data;
 @Table(name = "users")
 @Data
 public class User extends AbstractEntity implements UserDetails, UserInf {
-	private static final long serialVersionUID = 1L;
+	
 
 	public enum Authority {
-		ROLE_USER, ROLE_ADMIN
+		ROLE_USER, ROLE_ADMIN,
 	};
 
 	public User() {
@@ -44,7 +45,7 @@ public class User extends AbstractEntity implements UserDetails, UserInf {
 	@Id
 	@SequenceGenerator(name = "users_id_seq")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long userId;
+	private int userId;
 
 	@Column(nullable = false, unique = true)
 	private String username;

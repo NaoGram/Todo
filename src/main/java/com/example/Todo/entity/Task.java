@@ -1,17 +1,25 @@
 package com.example.Todo.entity;
 
 import com.example.Todo.validation.constraints.TaskContentNotEmpty;
+import com.example.Todo.entity.User;
+import com.example.Todo.entity.Task;
+import com.example.Todo.entity.TaskGroup;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
+import java.time.LocalDateTime;
+
+import lombok.Data;
 
 @Entity
 @Table(name = "tasks")
 @TaskContentNotEmpty(message = "Task content must not be empty")
+@Data
 public class Task extends AbstractEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long taskId;
+	private int taskId;
 
 	@Column(nullable = false)
 	private String title;
@@ -32,6 +40,13 @@ public class Task extends AbstractEntity {
 
 	@Column(nullable = false)
 	private String status;
+	
+	@Column(name = "created_at", nullable = false, updatable = false)
+    private Date createdAt;
+
+    @Column(name = "updated_at")
+    private Date updatedAt;
+
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")

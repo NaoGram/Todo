@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Data
 public class TaskForm {
-    private Long taskId;
+    private int taskId;
 
     @NotEmpty(message = "タイトルは必須です")
     private String title;
@@ -26,9 +26,9 @@ public class TaskForm {
     @NotEmpty(message = "ステータスは必須です")
     private String status;
 
-    private Long userId;
+    private int userId;
 
-    private Long taskGroupId;
+    private int taskGroupId;
 
     private Date createdAt;
 
