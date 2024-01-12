@@ -38,11 +38,15 @@ CREATE TABLE IF NOT EXISTS task_groups (
   tasks_id INT NOT NULL,
   group_name VARCHAR(255) NOT NULL,
   color VARCHAR(20),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  deleted_at TIMESTAMP,
+  
   PRIMARY KEY (id)
 );
 
 ALTER TABLE task_groups ADD CONSTRAINT FK_task_groups_users FOREIGN KEY (user_id) REFERENCES users;
-ALTER TABLE task_groups ADD CONSTRAINT FK_task_groups_tasks FOREIGN KEY (tasks_id) REFERENCES tasks;
+ALTER TABLE task_groups ADD CONSTRAINT FK_task_groups_tasks FOREIGN KEY (tasks_id) REFERENCES tasks(task_id);
 
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO todo;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO todo;

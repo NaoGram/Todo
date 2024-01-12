@@ -4,88 +4,130 @@
 
 <head>
 	<title>Todo</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<script type="text/javascript" src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
 </head>
 
 <body>
-	<div class="tasks-index-wrapper" layout:fragment="contents">
-		<div class="main-content">
+	<div class="tasks-index-wrapper text-center" layout:fragment="contents">
+		<div style="padding: 30px;"></div>
+		<div class="container">
+			<div class="main-content">
 
-			<!--タイトル -->
-			<div class="Title">
-				<h1>Your Task</h1>
-			</div>
+				<!-- タイトル -->
+				<div class="Title">
+					<h1 class="black">Your Task</h1>
 
-			<!--メインタスク表示領域-->
-			<div class="mainTasks">
-
-				<!--メインタスク内のコンテナ-->
-				<div class="task-container">
-
-					<!--タスクグループ内の領域-->
-
-					<!--タスク-->
-					<div class="task-title"></div>
-					task group title 01
-
-					<div class="task-item">
-						<!--アコーディオン-->
-						<div class="accordion" id="accordionExample1">
-							<!--アコーディオンを押したとき展開-->
-							<button class="accordion-button" type="button" data-bs-toggle="collapse"
-								data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"
-								style="background-color: lightblue;">
-								<!--タスクグループの領域--><!--色-->
-								<div class="task-group" style="background-color: lightblue;">
-									<div class="task">
-										Task
-									</div>
-								</div>
-							</button>
-							<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-								data-bs-parent="#accordionExample1">
-								<!--アコーディオン展開した時&#8203;``【oaicite:2】``&#8203;&#8203;``【oaicite:1】``&#8203;&#8203;``【oaicite:0】``&#8203; -->
-								<button>完了</button>
-								<button onclick="moveToPage('/newpage1.html')">編集</button>
-								<button>削除</button>
-							</div>
-						</div>
-					</div>
 				</div>
-			</div>
 
-			<!-- グループ2？？ -->
+				<!-- メインタスク表示領域 -->
+				<div class="mainTasks">
+					<div th:each="group : ${groups}">
+						<!-- タスクグループ -->
 
-			<div class="task-title"></div>
-			task group title 02
-			<div class="task-item">
-				<div class="accordion" id="accordionExample2">
-					<button class="accordion-button" type="button" data-bs-toggle="collapse"
-						data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo"
-						style="background-color: lightgreen;">
-						<div class="task-group" style="background-color: lightgreen;">
-							<div class="task-two">
-								Task2
+
+
+						<div class="accordion__item js-accordion-trigger">
+							<dt class="accordion__title row">
+								<div class="col-md-8 offset-md-2">
+
+
+									<button data-target-id="test1" class="btn btn-border" th:text="${group.group_name}"
+										style="background-color: white;">
+									</button>
+
+								</div>
+							</dt>
+
+
+							<div id="test1">
+
+
+
+
+								<div th:each="task, stat : ${group.tasks}">
+									<div class="task-item">
+
+										<!-- アコーディオン -->
+										<div class="accordion" th:id="'accordionExample' + ${stat.index}">
+											<!-- アコーディオンを押したとき展開 -->
+											<button class="accordion-button" type="button" data-bs-toggle="collapse"
+												th:data-bs-target="'#collapse' + ${stat.index}" aria-expanded="true"
+												aria-controls="collapseOne" style="background-color: lightblue;">
+												<!-- タスクグループの領域 -->
+
+
+												<div class="task">
+													<p th:text="${task.title}"></p>
+												</div>
+											</button>
+										</div>
+									</div>
+
+									<div th:id="'collapse' + ${stat.index}" class="accordion-collapse collapse show"
+										aria-labelledby="heading${stat.index}"
+										th:data-bs-parent="'accordionExample' + ${stat.index}">
+										<!-- アコーディオン展開した時のボタン -->
+										<button onclick="completeTask()">完了</button>
+										<!-- ボタンが押されたときに edit ページにリダイレクト -->
+
+										<!--<button th:attr="onclick='editTask(\'' + ${task.taskid} + '\'');'">編集</button>-->
+										<button th:attr="onclick='editTask(' + ${task.taskId} + ');'">編集</button>
+										<!--<button th:onclick="|deleteTask('__${task.taskid}__')|">削除</button>-->
+									</div>
+
+									<!-- JavaScript -->
+									<script>
+										// ページへの移動関数
+										function moveToPage(page) {
+											window.location.href = page;
+										}
+
+										// タスク編集ページにリダイレクトする関数
+										function editTask(taskId) {
+											window.location.href = '/Tasks/edit/' + taskId;
+										}
+
+										// タスク削除ページにリダイレクトする関数
+										function deleteTask(taskId) {
+											// 削除処理などの追加はここに追加
+											// 以下は削除ページへのリダイレクト
+											window.location.href = '/Tasks/delete/' + taskId;
+										}
+									</script>
+
+								</div>
 							</div>
 						</div>
-					</button>
-					<div id="collapseTwo" class="accordion-collapse collapse show" aria-labelledby="headingTwo"
-						data-bs-parent="#accordionExample2">
-						<button>完了</button>
-						<button onclick="moveToPage('/newpage2.html')">編集</buttononclick="moveToPage('/newpage2.html')">
-						<button>削除</button>
 					</div>
+					<script>
+						$(function () {
+							$("button").click(function (e) {
+								console.log("click")
+								//$(`#${e.target.dataset.targetId}`).slideToggle();
+								$(`#${e.target.dataset.targetId}`).slideToggle();
+							});
+						});
+					</script>
 				</div>
 			</div>
 		</div>
-
-		<script>
-			// ページへの移動関数
-			function moveToPage(page) {
-				window.location.href = page;
-			}
-		</script>
-
 	</div>
+
+
+
+	<script>
+		// ページへの移動関数
+		function moveToPage(page) {
+			window.location.href = page;
+		}
+
+
+	</script>
+
+
+
 </body>
 
 </html>
