@@ -33,15 +33,19 @@
 								<div class="col-md-8 offset-md-2">
 
 
-									<button data-target-id="test1" class="btn btn-border" th:text="${group.group_name}"
-										style="background-color: white;">
-									</button>
+									
+										<button class="btn btn-border" data-bs-toggle="collapse"
+											th:data-bs-target="'#TaskGroup' + ${group.id}" aria-expanded="true"
+											aria-controls="collapseOne" th:text="${group.group_name}"
+											th:style="'background-color: ' + ${group.color}">
 
-								</div>
+										</button>
+
+									</div>
 							</dt>
 
 
-							<div id="test1">
+							<div th:id="'TaskGroup' + ${group.id}" class="collapse show">
 
 
 
@@ -50,70 +54,40 @@
 									<div class="task-item">
 
 										<!-- アコーディオン -->
-										<div class="accordion" th:id="'accordionExample' + ${stat.index}">
+										<div class="accordion" th:id="'accordionExample' + ${task.taskId}">
 											<!-- アコーディオンを押したとき展開 -->
 											<button class="accordion-button" type="button" data-bs-toggle="collapse"
-												th:data-bs-target="'#collapse' + ${stat.index}" aria-expanded="true"
+												th:data-bs-target="'#collapse' + ${task.taskId}" aria-expanded="true"
 												aria-controls="collapseOne" style="background-color: lightblue;">
 												<!-- タスクグループの領域 -->
 
 
 												<div class="task">
-													<p th:text="${task.title}"></p>
+													<p th:text="${task.content}  + ' ' + ${task.startTime}"></p>
 												</div>
 											</button>
 										</div>
 									</div>
 
-									<div th:id="'collapse' + ${stat.index}" class="accordion-collapse collapse show"
-										aria-labelledby="heading${stat.index}"
-										th:data-bs-parent="'accordionExample' + ${stat.index}">
+									<div th:id="'collapse' + ${task.taskId}" class="accordion-collapse collapse show"
+										th:aria-labelledby="'heading' + ${task.taskId}"
+										th:data-bs-parent="'accordionExample' + ${task.taskId}">
 										<!-- アコーディオン展開した時のボタン -->
-										<button onclick="completeTask()">完了</button>
-										<!-- ボタンが押されたときに edit ページにリダイレクト -->
-
-										<!--<button th:attr="onclick='editTask(\'' + ${task.taskid} + '\'');'">編集</button>-->
-										<button th:attr="onclick='editTask(' + ${task.taskId} + ');'">編集</button>
-										<!--<button th:onclick="|deleteTask('__${task.taskid}__')|">削除</button>-->
+										<button class="btn btn-success" th:onclick="onclick='completeTask(' + ${task.taskId} + ');'"><i class="bi bi-check"></i></button>
+										<button class="btn btn-warning" th:attr="onclick='editTask(' + ${task.taskId} + ');'"><i class="bi bi-pencil"></i></button>
+										<button class="btn btn-danger" th:onclick="onclick='deleteTask(' + ${task.taskid} + ');'"><i class="bi bi-trash"></i></button>
 									</div>
 
-									<!-- JavaScript -->
-									<script>
-										// ページへの移動関数
-										function moveToPage(page) {
-											window.location.href = page;
-										}
 
-										// タスク編集ページにリダイレクトする関数
-										function editTask(taskId) {
-											window.location.href = '/Tasks/edit/' + taskId;
-										}
-
-										// タスク削除ページにリダイレクトする関数
-										function deleteTask(taskId) {
-											// 削除処理などの追加はここに追加
-											// 以下は削除ページへのリダイレクト
-											window.location.href = '/Tasks/delete/' + taskId;
-										}
-									</script>
 
 								</div>
 							</div>
 						</div>
 					</div>
-					<script>
-						$(function () {
-							$("button").click(function (e) {
-								console.log("click")
-								//$(`#${e.target.dataset.targetId}`).slideToggle();
-								$(`#${e.target.dataset.targetId}`).slideToggle();
-							});
-						});
-					</script>
 				</div>
 			</div>
 		</div>
-	</div>
+	
 
 
 
@@ -124,9 +98,34 @@
 		}
 
 
+		// ページへの移動関数
+		function completeTask(taskId) {
+			window.location.href = '/Tasks/complete/' + taskId;
+		}
+
+		// タスク編集ページにリダイレクトする関数
+		function editTask(taskId) {
+			console.log("click");
+			window.location.href = '/Tasks/edit/' + taskId;
+		}
+
+		// タスク削除ページにリダイレクトする関数
+		function deleteTask(taskId) {
+			// 削除処理などの追加はここに追加
+			// 以下は削除ページへのリダイレクト
+			window.location.href = '/Tasks/delete/' + taskId;
+		}
+
+
+		$(function () {
+			$("button").click(function (e) {
+				console.log("click")
+				$(`#${e.target.dataset.targetId}`).slideToggle();
+			});
+		});
 	</script>
 
-
+</div>
 
 </body>
 

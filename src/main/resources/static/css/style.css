@@ -1,3 +1,4 @@
+@charset "UTF-8";
 h1,
 h2,
 h3,
@@ -89,11 +90,35 @@ nav.navbar {
 .tasks-index-wrapper .container {
   padding-top: 80px; }
 
-.tasks-index-wrapper .container h1 {
-  font-size: 56px;
-  margin-bottom: 20px; }
+.tasks-index-wrapper .main-content {
+  padding: 0.2em 0.5em;
+  margin: 2em 0;
+  color: #565656;
+  background: #ffffff;
+  box-shadow: 0px 0px 0px 10px #ffffff;
+  border: dashed 2px #646566 繧ｰ繝ｬ繝ｼ;
+  border-radius: 8px; }
 
-.tasks-index-wrapper .container h2 {
-  margin-bottom: 60px; }
+.tasks-new-wrapper {
+  width: 100vw;
+  height: 100vh;
+  background-image: url("/images/cork02.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #464646; }
+
+.tasks-new-wrapper .container {
+  padding-top: 80px; }
+
+.tasks-new-wrapper .main-content {
+  padding: 0.2em 0.5em;
+  margin: 2em 0;
+  color: #565656;
+  background: #ffffff;
+  box-shadow: 0px 0px 0px 10px #ffffff;
+  border: dashed 2px #646566 繧ｰ繝ｬ繝ｼ;
+  border-radius: 8px; }
 
 /*# sourceMappingURL=style.css.map */
