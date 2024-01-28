@@ -19,16 +19,23 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.validation.Valid;
+
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import java.util.Optional;
 
+import org.springframework.context.MessageSource;
+
+import java.util.Locale;
 
 @Controller
 public class TaskController {
-
+	@Autowired
+	private MessageSource messageSource;
 	@Autowired
 	private TaskRepository taskRepository;
 
@@ -55,6 +62,8 @@ public class TaskController {
 		// HTML拡張子は通常コメントアウトしない
 		return "tasks/index";
 	}
+	
+	
 
 	// 新しいタスクのフォームを表示するエンドポイント
 	@GetMapping("/new")
@@ -66,21 +75,35 @@ public class TaskController {
 	}
 
 	// 新しいタスクを作成するエンドポイント
-	@PostMapping
-	public String createTask(@Valid @ModelAttribute("taskForm") TaskForm taskForm, BindingResult result) {
+	@RequestMapping(value = "/tasks2", method = RequestMethod.POST)
+	public String createTask(@Valid @ModelAttribute("taskForm") TaskForm taskForm, BindingResult result, Model model,
+			Locale locale) {
+		System.out.println("ここオッケー");
+		taskForm.printout();
 		// バリデーションエラーがある場合は、フォームを再表示
-		if (result.hasErrors()) {
-			List<TaskGroup> taskGroups = taskGroupRepository.findAll();
-			return "tasks/new"; // リダイレクトではなく、フォワードする
-		}
+//		if (result.hasErrors()) {
+//			model.addAttribute("hasMessage", true);
+//			model.addAttribute("class", "alert-danger");
+//			// model.addAttribute("message", "投稿に失敗しました。");
+//			model.addAttribute("message", messageSource.getMessage("テスト", new String[] {}, Locale.getDefault()));
+//			List<TaskGroup> taskGroups = taskGroupRepository.findAll();
+//			return "tasks/new"; // リダイレクトではなく、フォワードする
+//		}
 
 		// 認証情報を取得してタスクを作成しデータベースに保存
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User user = userRepository.findByUsername(authentication.getName());
-
+		taskForm.setTaskGroupId(1);
+		System.out.println(taskForm);
 		Task task = convertToTask(taskForm);
 		task.setUser(user);
-		taskRepository.save(task);
+//		task.setTaskGroup(taskForm.getTaskGroupId());
+		Optional<TaskGroup> taskGroupOptional = taskGroupRepository.findById(taskForm.getTaskGroupId());
+		TaskGroup taskGroup = taskGroupOptional.get();
+		
+		System.out.println(taskGroup);
+		task.setTaskGroup(taskGroup);
+		taskRepository.saveAndFlush(task);
 
 		return "redirect:/tasks";
 	}
@@ -94,48 +117,47 @@ public class TaskController {
 	private Task convertToTask(TaskForm taskForm) {
 		return modelMapper.map(taskForm, Task.class);
 	}
-	
+
 	// タスクを編集するフォームを表示するエンドポイント
-		@GetMapping("/Tasks/edit/{taskId}")
-		public String showEditTaskForm(@PathVariable int taskId, Model model) {
-			Task task = taskRepository.findById(taskId).orElse(new Task());
-			model.addAttribute("TaskForm", task);
-			return "Tasks/edit";
-		}
+	@GetMapping("/Tasks/edit/{taskId}")
+	public String showEditTaskForm(@PathVariable int taskId, Model model) {
+		Task task = taskRepository.findById(taskId).orElse(new Task());
+		model.addAttribute("TaskForm", task);
+		return "Tasks/edit";
+	}
 
-		// タスクが完了した時のエンドポイント
-		@PostMapping("/Tasks/complete/{taskId}")
-		public String completeTask(@PathVariable int taskId) {
-		    // タスクをデータベースから取得
-		    Optional<Task> optionalTask = taskRepository.findById(taskId);
+	// タスクが完了した時のエンドポイント
+	@PostMapping("/Tasks/complete/{taskId}")
+	public String completeTask(@PathVariable int taskId) {
+		// タスクをデータベースから取得
+		Optional<Task> optionalTask = taskRepository.findById(taskId);
 
-		    if (optionalTask.isPresent()) {
-		        // タスクが見つかった場合
-		        Task task = optionalTask.get();
-		        // タスクのステータスを完了に設定
-		        task.setStatus("completed");
-		        // タスクを保存
-		        taskRepository.save(task);
-		    }
-
-		    return "redirect:/Tasks";
-		}
-
-		
-		// タスクを編集してデータベースに保存するエンドポイント
-		@PostMapping("/Tasks/edit/{taskId}")
-		public String editTask(@PathVariable int taskId, @ModelAttribute("TaskForm") Task task) {
-			task.setTaskId(taskId);
+		if (optionalTask.isPresent()) {
+			// タスクが見つかった場合
+			Task task = optionalTask.get();
+			// タスクのステータスを完了に設定
+			task.setStatus("completed");
+			// タスクを保存
 			taskRepository.save(task);
-			return "redirect:/Tasks";
 		}
 
-		// タスクを削除するエンドポイント
-		@GetMapping("/Tasks/delete/{taskId}")
-		public String deleteTask(@PathVariable int taskId) {
-			taskRepository.deleteById(taskId);
-			return "redirect:/Tasks";
-		}
+		return "redirect:/Tasks";
+	}
+
+	// タスクを編集してデータベースに保存するエンドポイント
+	@PostMapping("/Tasks/edit/{taskId}")
+	public String editTask(@PathVariable int taskId, @ModelAttribute("TaskForm") Task task) {
+		task.setTaskId(taskId);
+		taskRepository.save(task);
+		return "redirect:/Tasks";
+	}
+
+	// タスクを削除するエンドポイント
+	@GetMapping("/Tasks/delete/{taskId}")
+	public String deleteTask(@PathVariable int taskId) {
+		taskRepository.deleteById(taskId);
+		return "redirect:/tasks";
+	}
 
 	// ユーザー一覧を表示するエンドポイント
 	@GetMapping("/users")

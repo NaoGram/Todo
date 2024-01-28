@@ -8,6 +8,18 @@ import java.util.Date;
 
 @Data
 public class TaskForm {
+	
+	public void printout(){
+		System.out.println(taskId);
+		System.out.println(title);
+		System.out.println(content);
+		System.out.println(startTime);
+		System.out.println(userId);
+		System.out.println(taskGroupId);
+		System.out.println();
+		System.out.println();
+		}
+	
     private int taskId;
 
     @NotEmpty(message = "タイトルは必須です")
@@ -23,16 +35,16 @@ public class TaskForm {
 
     private boolean allDay;
 
-    @NotEmpty(message = "ステータスは必須です")
+//    @NotEmpty(message = "ステータスは必須です")
     private String status;
 
     private int userId;
 
     private int taskGroupId;
 
-    private Date createdAt;
-
-    private Date updatedAt;
+//    private Date createdAt;
+//
+//    private Date updatedAt;
 
     // コンストラクタ、ゲッター、セッターなど
 }

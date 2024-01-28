@@ -156,3 +156,141 @@ nav.navbar {
 	border: dashed 2px #646566 グレー;
 	border-radius: 8px;
 }
+
+.selectbox-3 {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+}
+
+.selectbox-3::after {
+    position: absolute;
+    right: 15px;
+    width: 10px;
+    height: 7px;
+    background-color: #535353;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    content: '';
+    pointer-events: none;
+}
+
+.selectbox-3 select {
+    appearance: none;
+    min-width: 230px;
+    height: 2.8em;
+    padding: .4em calc(.8em + 30px) .4em .8em;
+    border: 1px solid #d0d0d0;
+    border-radius: 3px;
+    background-color: #fff;
+    color: #333333;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+
+.tasks-edit-wrapper {
+
+	width: 100vw;
+	height: 100vh;
+	background-image: url("/images/cork02.png");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	background-color: #464646;
+}
+
+.tasks-edit-wrapper .container {
+	padding-top: 80px;
+}
+
+.tasks-edit-wrapper .main-content {
+	padding: 0.2em 0.5em;
+	margin: 2em 0;
+	color: #565656;
+	background: #ffffff;
+	box-shadow: 0px 0px 0px 10px #ffffff;
+	border: dashed 2px #646566 グレー;
+	border-radius: 8px;
+}
+
+
+.group-new-wrapper {
+
+	width: 100vw;
+	height: 100vh;
+	background-image: url("/images/cork02.png");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	background-color: #464646;
+}
+
+.group-new-wrapper .container {
+	padding-top: 80px;
+}
+
+.group-new-wrapper .main-content {
+	padding: 0.2em 0.5em;
+	margin: 2em 0;
+	color: #565656;
+	background: #ffffff;
+	box-shadow: 0px 0px 0px 10px #ffffff;
+	border: dashed 2px #646566 グレー;
+	border-radius: 8px;
+}
+
+
+.group-list-wrapper {
+
+	width: 100vw;
+	height: 100vh;
+	background-image: url("/images/cork02.png");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	background-color: #464646;
+}
+
+.group-list-wrapper .container {
+	padding-top: 80px;
+}
+
+.group-list-wrapper .main-content {
+	padding: 0.2em 0.5em;
+	margin: 2em 0;
+	color: #565656;
+	background: #ffffff;
+	box-shadow: 0px 0px 0px 10px #ffffff;
+	border: dashed 2px #646566 グレー;
+	border-radius: 8px;
+}
+
+
+.group-edit-wrapper {
+
+	width: 100vw;
+	height: 100vh;
+	background-image: url("/images/cork02.png");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	background-color: #464646;
+}
+
+.group-edit-wrapper .container {
+	padding-top: 80px;
+}
+
+.group-edit-wrapper .main-content {
+	padding: 0.2em 0.5em;
+	margin: 2em 0;
+	color: #565656;
+	background: #ffffff;
+	box-shadow: 0px 0px 0px 10px #ffffff;
+	border: dashed 2px #646566 グレー;
+	border-radius: 8px;	
+}

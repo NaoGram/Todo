@@ -17,7 +17,9 @@ import lombok.Data;
 @TaskContentNotEmpty(message = "Task content must not be empty")
 @Data
 public class Task extends AbstractEntity {
+	
 	@Id
+	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int taskId;
 
@@ -31,21 +33,30 @@ public class Task extends AbstractEntity {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date startTime;
 
-	@Column(nullable = false)
+	@Column(nullable = true)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date endTime;
 
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private boolean allDay;
 
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String status;
 	
-	@Column(name = "created_at", nullable = false, updatable = false)
-    private Date createdAt;
-
-    @Column(name = "updated_at")
-    private Date updatedAt;
+//	@Column(nullable = false)
+//	private Long taskGroupId;
+	
+//	@Column(name = "created_at", nullable = false, updatable = false)
+//    private Date createdAt;
+//
+//    @Column(name = "updated_at")
+//    private Date updatedAt;
+	
+//	@Column(nullable = false)
+//	private Long userId;
+	
+//	@Column(nullable = false)
+//	private Long taskGroupId;
 
 
 	@ManyToOne

@@ -71,7 +71,8 @@
 
 									<div th:id="'collapse' + ${task.taskId}" class="accordion-collapse collapse show"
 										th:aria-labelledby="'heading' + ${task.taskId}"
-										th:data-bs-parent="'accordionExample' + ${task.taskId}">
+										th:data-bs-parent="'accordionExample' + ${task.taskId}"
+										style="background-color: #64c0fa;">
 										<!-- アコーディオン展開した時のボタン -->
 										<button class="btn btn-success" th:onclick="onclick='completeTask(' + ${task.taskId} + ');'"><i class="bi bi-check"></i></button>
 										<button class="btn btn-warning" th:attr="onclick='editTask(' + ${task.taskId} + ');'"><i class="bi bi-pencil"></i></button>
